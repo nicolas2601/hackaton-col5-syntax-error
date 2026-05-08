@@ -1,0 +1,274 @@
+@import "tailwindcss";
+
+/* ============================================================
+   LIGHTDASH DESIGN TOKENS — Tailwind v4 CSS-first config
+   ============================================================ */
+
+@theme {
+  /* Colors — Lightdash palette */
+  --color-midnight-ink: #1a1b25;
+  --color-charcoal-slate: #272835;
+  --color-deep-indigo: #36394a;
+  --color-steel-gray: #666d80;
+  --color-cloud-gray: #818898;
+  --color-stone-wash: #a4abb8;
+  --color-off-white: #f8fafb;
+  --color-canvas-white: #ffffff;
+  --color-lava-cloud: #eceff3;
+  --color-ghost-fill: #f6f8fa;
+  --color-electric-violet: #5e4cff;
+  --color-lavender-mist: #dfdbff;
+  --color-pixel-purple: #c8ccf3;
+
+  /* Semantic aliases for shadcn */
+  --color-background: #ffffff;
+  --color-foreground: #1a1b25;
+  --color-card: #ffffff;
+  --color-card-foreground: #1a1b25;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #1a1b25;
+  --color-primary: #5e4cff;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #f6f8fa;
+  --color-secondary-foreground: #1a1b25;
+  --color-muted: #f6f8fa;
+  --color-muted-foreground: #666d80;
+  --color-accent: #dfdbff;
+  --color-accent-foreground: #1a1b25;
+  --color-destructive: #d3334b;
+  --color-destructive-foreground: #ffffff;
+  --color-border: #eceff3;
+  --color-input: #eceff3;
+  --color-ring: #5e4cff;
+
+  /* Typography */
+  --font-display: "Montserrat", "Britti Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  /* Radii */
+  --radius-tag: 999px;
+  --radius-card: 12px;
+  --radius-button: 8px;
+  --radius-elevated: 20px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 20px;
+
+  /* Spacing scale (Lightdash: 4, 8, 12, 16, 20, 24, 28, 32, 40, 48, 64, 72, 80, 180) */
+  --spacing-unit: 4px;
+
+  /* Shadows */
+  --shadow-subtle-2: rgba(39, 40, 53, 0.1) 0px 0px 0px 1px;
+  --shadow-subtle-4:
+    rgba(39, 40, 53, 0.05) 0px 0px 0px 1px,
+    rgba(39, 40, 53, 0.01) 0px 50px 20px 0px,
+    rgba(39, 40, 53, 0.02) 0px 30px 18px 0px,
+    rgba(39, 40, 53, 0.04) 0px 13px 13px 0px,
+    rgba(39, 40, 53, 0.05) 0px 3px 7px 0px;
+  --shadow-lg:
+    rgba(0, 0, 0, 0.01) 0px 54px 21px 0px,
+    rgba(0, 0, 0, 0.05) 0px 30px 18px 0px,
+    rgba(0, 0, 0, 0.09) 0px 13px 13px 0px,
+    rgba(0, 0, 0, 0.10) 0px 3px 7px 0px;
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--color-canvas-white);
+    color: var(--color-midnight-ink);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.43;
+    letter-spacing: -0.010em;
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--color-midnight-ink);
+    letter-spacing: -0.020em;
+  }
+
+  code, pre, kbd, samp {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    letter-spacing: -0.020em;
+  }
+
+  ::selection {
+    background-color: var(--color-lavender-mist);
+    color: var(--color-midnight-ink);
+  }
+}
+
+/* ============================================================
+   UTILITIES — Typography roles
+   ============================================================ */
+
+@layer utilities {
+  .text-display {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(48px, 6vw, 76px);
+    line-height: 0.9;
+    letter-spacing: -0.025em;
+    color: var(--color-midnight-ink);
+  }
+
+  .text-heading-lg {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(36px, 4vw, 48px);
+    line-height: 1.0;
+    letter-spacing: -0.025em;
+    color: var(--color-midnight-ink);
+  }
+
+  .text-heading {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(24px, 3vw, 32px);
+    line-height: 1.14;
+    letter-spacing: -0.020em;
+    color: var(--color-midnight-ink);
+  }
+
+  .text-heading-sm {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 1.25;
+    letter-spacing: -0.010em;
+    color: var(--color-midnight-ink);
+  }
+
+  .text-subheading {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.30;
+    letter-spacing: -0.010em;
+    color: var(--color-midnight-ink);
+  }
+
+  .text-body {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.43;
+    letter-spacing: -0.010em;
+    color: var(--color-deep-indigo);
+  }
+
+  .text-mono {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.5;
+    letter-spacing: -0.020em;
+  }
+
+  .card-elevated {
+    background-color: var(--color-canvas-white);
+    border-radius: 20px;
+    box-shadow: var(--shadow-subtle-4);
+    padding: 24px 32px 20px;
+  }
+
+  .card-simple {
+    background-color: var(--color-canvas-white);
+    border-radius: 12px;
+    box-shadow: var(--shadow-subtle-2);
+    padding: 28px 22px;
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background-color: rgba(5, 5, 19, 0.04);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-deep-indigo);
+  }
+
+  .pill-violet {
+    background-color: var(--color-lavender-mist);
+    color: var(--color-electric-violet);
+  }
+
+  /* Pixel pattern decorativo */
+  .bg-pixel-pattern {
+    background-image:
+      radial-gradient(circle at 1px 1px, var(--color-pixel-purple) 1px, transparent 0);
+    background-size: 24px 24px;
+  }
+
+  .bg-pixel-fade {
+    background:
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(200, 204, 243, 0.4), transparent 70%),
+      radial-gradient(circle at 1px 1px, var(--color-pixel-purple) 1px, transparent 0);
+    background-size: auto, 24px 24px;
+  }
+
+  /* Scrollbars */
+  .scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: var(--color-stone-wash);
+    border-radius: 999px;
+  }
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes ripple {
+  0% { transform: scale(0); opacity: 0.6; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, var(--color-ghost-fill) 0%, var(--color-lava-cloud) 50%, var(--color-ghost-fill) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+
+/* Recharts overrides — Lightdash look */
+.recharts-cartesian-axis-tick text {
+  fill: var(--color-cloud-gray);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.recharts-cartesian-grid line {
+  stroke: var(--color-lava-cloud);
+}
+
+.recharts-tooltip-wrapper {
+  outline: none !important;
+}

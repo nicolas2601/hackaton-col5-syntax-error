@@ -1,0 +1,62 @@
+{
+  "_comment": "Coolify v4 — payload para POST /api/v1/applications/dockerimage. Dashboard Next.js 15 standalone.",
+  "name": "panel",
+  "description": "SECOP Dashboard — Hackathon Colombia 5.0 (Next.js 15 standalone)",
+  "project_uuid": "tsc8k8c4088cgw0ws4w8osgc",
+  "server_uuid": "AUTO_SET_BY_COOLIFY",
+  "environment_name": "production",
+  "destination_uuid": "AUTO_SET_BY_COOLIFY",
+
+  "docker_registry_image_name": "secop-panel:latest",
+  "docker_registry_image_tag": "latest",
+  "ports_exposes": "3000",
+  "ports_mappings": "",
+
+  "domains": "https://panel.tikno.pro",
+  "fqdn": "https://panel.tikno.pro",
+
+  "instant_deploy": false,
+  "use_build_server": false,
+  "watch_paths": [],
+
+  "health_check_enabled": true,
+  "health_check_path": "/",
+  "health_check_port": "3000",
+  "health_check_host": "localhost",
+  "health_check_method": "GET",
+  "health_check_return_code": 200,
+  "health_check_scheme": "http",
+  "health_check_interval": 30,
+  "health_check_timeout": 10,
+  "health_check_retries": 3,
+  "health_check_start_period": 45,
+
+  "limits_memory": "768m",
+  "limits_memory_swap": "768m",
+  "limits_cpus": "1.0",
+  "limits_cpu_shares": 1024,
+
+  "custom_labels": [
+    "traefik.enable=true",
+    "traefik.http.routers.panel.rule=Host(`panel.tikno.pro`)",
+    "traefik.http.routers.panel.entrypoints=https",
+    "traefik.http.routers.panel.tls=true",
+    "traefik.http.routers.panel.tls.certresolver=letsencrypt",
+    "traefik.http.services.panel.loadbalancer.server.port=3000",
+    "traefik.http.routers.panel.middlewares=gzip@docker"
+  ],
+
+  "post_deployment_command": "",
+  "pre_deployment_command": "",
+
+  "environment_variables": [
+    {"key": "NODE_ENV",              "value": "production",                       "is_preview": false, "is_build_time": false},
+    {"key": "NEXT_TELEMETRY_DISABLED","value": "1",                                "is_preview": false, "is_build_time": false},
+    {"key": "PORT",                  "value": "3000",                             "is_preview": false, "is_build_time": false},
+    {"key": "HOSTNAME",              "value": "0.0.0.0",                          "is_preview": false, "is_build_time": false},
+    {"key": "NEXT_PUBLIC_API_URL",   "value": "https://api-ronda2.tikno.pro",     "is_preview": false, "is_build_time": true}
+  ],
+
+  "networks": ["coolify"],
+  "restart_policy": "unless-stopped"
+}

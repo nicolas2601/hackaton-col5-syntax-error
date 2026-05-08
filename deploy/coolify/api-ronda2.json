@@ -1,0 +1,81 @@
+{
+  "_comment": "Coolify v4 — payload para POST /api/v1/applications/dockerimage. Crea app api-ronda2 (FastAPI hackathon).",
+  "name": "api-ronda2",
+  "description": "SECOP API — Hackathon Colombia 5.0 ronda 2 (FastAPI + contratos_2025)",
+  "project_uuid": "tsc8k8c4088cgw0ws4w8osgc",
+  "server_uuid": "AUTO_SET_BY_COOLIFY",
+  "environment_name": "production",
+  "destination_uuid": "AUTO_SET_BY_COOLIFY",
+
+  "docker_registry_image_name": "secop-api:latest",
+  "docker_registry_image_tag": "latest",
+  "ports_exposes": "8000",
+  "ports_mappings": "",
+
+  "domains": "https://api-ronda2.tikno.pro",
+  "fqdn": "https://api-ronda2.tikno.pro",
+
+  "instant_deploy": false,
+  "use_build_server": false,
+  "watch_paths": [],
+
+  "health_check_enabled": true,
+  "health_check_path": "/health",
+  "health_check_port": "8000",
+  "health_check_host": "localhost",
+  "health_check_method": "GET",
+  "health_check_return_code": 200,
+  "health_check_scheme": "http",
+  "health_check_response_text": null,
+  "health_check_interval": 30,
+  "health_check_timeout": 10,
+  "health_check_retries": 3,
+  "health_check_start_period": 30,
+
+  "limits_memory": "1024m",
+  "limits_memory_swap": "1024m",
+  "limits_cpus": "1.5",
+  "limits_cpu_shares": 1024,
+
+  "custom_labels": [
+    "traefik.enable=true",
+    "traefik.http.routers.api-ronda2.rule=Host(`api-ronda2.tikno.pro`)",
+    "traefik.http.routers.api-ronda2.entrypoints=https",
+    "traefik.http.routers.api-ronda2.tls=true",
+    "traefik.http.routers.api-ronda2.tls.certresolver=letsencrypt",
+    "traefik.http.services.api-ronda2.loadbalancer.server.port=8000",
+    "traefik.http.routers.api-ronda2.middlewares=gzip@docker"
+  ],
+
+  "post_deployment_command": "",
+  "pre_deployment_command": "",
+
+  "environment_variables": [
+    {"key": "APP_ENV",                 "value": "production",                                  "is_preview": false, "is_build_time": false},
+    {"key": "APP_NAME",                "value": "SECOP API",                                   "is_preview": false, "is_build_time": false},
+    {"key": "APP_VERSION",             "value": "0.1.0",                                       "is_preview": false, "is_build_time": false},
+    {"key": "DEBUG",                   "value": "false",                                       "is_preview": false, "is_build_time": false},
+    {"key": "LOG_LEVEL",               "value": "INFO",                                        "is_preview": false, "is_build_time": false},
+    {"key": "HOST",                    "value": "0.0.0.0",                                     "is_preview": false, "is_build_time": false},
+    {"key": "PORT",                    "value": "8000",                                        "is_preview": false, "is_build_time": false},
+    {"key": "WORKERS",                 "value": "4",                                           "is_preview": false, "is_build_time": false},
+    {"key": "DATABASE_POOL_MIN",       "value": "2",                                           "is_preview": false, "is_build_time": false},
+    {"key": "DATABASE_POOL_MAX",       "value": "20",                                          "is_preview": false, "is_build_time": false},
+    {"key": "DATABASE_TIMEOUT",        "value": "30",                                          "is_preview": false, "is_build_time": false},
+    {"key": "CORS_ORIGINS",            "value": "https://panel.tikno.pro,https://tikno.pro",   "is_preview": false, "is_build_time": false},
+    {"key": "RATE_LIMIT_PER_MINUTE",   "value": "100",                                         "is_preview": false, "is_build_time": false},
+    {"key": "CACHE_TTL_SECONDS",       "value": "300",                                         "is_preview": false, "is_build_time": false},
+    {"key": "DATA_SNAPSHOT_DATE",      "value": "2026-05-06",                                  "is_preview": false, "is_build_time": false},
+    {"key": "DATA_TOTAL_ROWS",         "value": "1003902",                                     "is_preview": false, "is_build_time": false},
+    {"key": "DATA_TOTAL_COLUMNS",      "value": "84",                                          "is_preview": false, "is_build_time": false},
+    {"key": "DATA_TABLE_NAME",         "value": "contratos_2025",                              "is_preview": false, "is_build_time": false}
+  ],
+
+  "_inject_at_deploy": {
+    "_comment": "DATABASE_URL se inyecta en runtime por deploy_api.sh con la pass real.",
+    "DATABASE_URL": "postgres://postgres:__SET_BY_DEPLOY_SCRIPT__@roook084kg4owsgkcc8k08s8:5432/secop"
+  },
+
+  "networks": ["coolify"],
+  "restart_policy": "unless-stopped"
+}

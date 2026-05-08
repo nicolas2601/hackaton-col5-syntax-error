@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# Node
+node_modules/
+.next/
+dist/
+build/
+*.log
+
+# Env / secrets
+.env
+.env.local
+.env.production
+*.pem
+*.key
+
+# DBs locales
+ruvector.db
+agentdb.*
+*.db-shm
+*.db-wal
+
+# OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Tmp
+/tmp/
+*.bak

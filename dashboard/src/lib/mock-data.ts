@@ -1,0 +1,240 @@
+import type {
+  Anomalia,
+  BrechaGenero,
+  DepartamentoTop,
+  DistribucionTemporal,
+  EntidadTop,
+  MapaDepto,
+  ModalidadStat,
+  ParetoPunto,
+  StatsTotal,
+  TipoContratoStat,
+} from "@/types";
+
+/**
+ * Mock data shipped as fallback when the API is unreachable.
+ * Numbers reflect public SECOP II findings shared in the hackathon brief.
+ */
+
+export const mockStatsTotal: StatsTotal = {
+  total_registros: 1_000_000,
+  total_pymes: 132_000,
+  pct_pymes: 13.2,
+  total_directa: 757_000,
+  pct_directa: 75.7,
+  pareto_entidades: 7,
+  pareto_pct_valor: 80,
+  total_valor: 145_300_000_000_000,
+};
+
+export const mockDepartamentosTop: DepartamentoTop[] = [
+  { departamento: "Bogotá D.C.", contratos: 184_320, valor_total: 32_400_000_000_000, pct: 18.4 },
+  { departamento: "Antioquia", contratos: 98_540, valor_total: 18_200_000_000_000, pct: 9.85 },
+  { departamento: "Valle del Cauca", contratos: 76_120, valor_total: 14_100_000_000_000, pct: 7.61 },
+  { departamento: "Cundinamarca", contratos: 64_800, valor_total: 11_900_000_000_000, pct: 6.48 },
+  { departamento: "Atlántico", contratos: 52_300, valor_total: 9_700_000_000_000, pct: 5.23 },
+  { departamento: "Santander", contratos: 48_120, valor_total: 8_900_000_000_000, pct: 4.81 },
+  { departamento: "Bolívar", contratos: 41_600, valor_total: 7_700_000_000_000, pct: 4.16 },
+  { departamento: "Nariño", contratos: 35_400, valor_total: 6_500_000_000_000, pct: 3.54 },
+  { departamento: "Norte de Santander", contratos: 32_140, valor_total: 5_900_000_000_000, pct: 3.21 },
+  { departamento: "Tolima", contratos: 29_800, valor_total: 5_400_000_000_000, pct: 2.98 },
+];
+
+export const mockModalidades: ModalidadStat[] = [
+  { modalidad: "Contratación Directa", contratos: 757_000, pct: 75.7 },
+  { modalidad: "Mínima Cuantía", contratos: 121_000, pct: 12.1 },
+  { modalidad: "Selección Abreviada", contratos: 78_000, pct: 7.8 },
+  { modalidad: "Licitación Pública", contratos: 32_000, pct: 3.2 },
+  { modalidad: "Concurso de Méritos", contratos: 12_000, pct: 1.2 },
+];
+
+export const mockTiposContrato: TipoContratoStat[] = [
+  { tipo: "Prestación de Servicios", contratos: 482_000, valor_total: 41_300_000_000_000 },
+  { tipo: "Suministro", contratos: 198_000, valor_total: 28_900_000_000_000 },
+  { tipo: "Obra Pública", contratos: 142_000, valor_total: 51_200_000_000_000 },
+  { tipo: "Consultoría", contratos: 89_000, valor_total: 14_800_000_000_000 },
+  { tipo: "Compraventa", contratos: 56_000, valor_total: 7_900_000_000_000 },
+];
+
+export const mockEntidadesTop: EntidadTop[] = [
+  { entidad: "Agencia Nacional de Infraestructura", valor_total: 18_400_000_000_000, contratos: 1_240 },
+  { entidad: "Ministerio de Defensa Nacional", valor_total: 12_900_000_000_000, contratos: 8_320 },
+  { entidad: "Ecopetrol S.A.", valor_total: 11_200_000_000_000, contratos: 4_180 },
+];
+
+export const mockDistribucionTemporal: DistribucionTemporal[] = [
+  { mes: "2024-01", contratos: 68_000, valor_total: 9_400_000_000_000 },
+  { mes: "2024-02", contratos: 72_000, valor_total: 10_100_000_000_000 },
+  { mes: "2024-03", contratos: 81_000, valor_total: 11_800_000_000_000 },
+  { mes: "2024-04", contratos: 86_000, valor_total: 12_400_000_000_000 },
+  { mes: "2024-05", contratos: 91_000, valor_total: 13_200_000_000_000 },
+  { mes: "2024-06", contratos: 95_000, valor_total: 13_900_000_000_000 },
+  { mes: "2024-07", contratos: 88_000, valor_total: 12_600_000_000_000 },
+  { mes: "2024-08", contratos: 84_000, valor_total: 12_100_000_000_000 },
+  { mes: "2024-09", contratos: 79_000, valor_total: 11_400_000_000_000 },
+  { mes: "2024-10", contratos: 76_000, valor_total: 10_900_000_000_000 },
+  { mes: "2024-11", contratos: 89_000, valor_total: 12_800_000_000_000 },
+  { mes: "2024-12", contratos: 92_000, valor_total: 13_600_000_000_000 },
+];
+
+export const mockPareto: ParetoPunto[] = [
+  { rank: 1, entidad: "ANI", valor: 18_400_000_000_000, pct_acumulado: 12.7 },
+  { rank: 2, entidad: "Mindefensa", valor: 12_900_000_000_000, pct_acumulado: 21.6 },
+  { rank: 3, entidad: "Ecopetrol", valor: 11_200_000_000_000, pct_acumulado: 29.3 },
+  { rank: 4, entidad: "Invías", valor: 10_800_000_000_000, pct_acumulado: 36.7 },
+  { rank: 5, entidad: "Min. Salud", valor: 9_700_000_000_000, pct_acumulado: 43.4 },
+  { rank: 6, entidad: "Min. Educación", valor: 9_200_000_000_000, pct_acumulado: 49.7 },
+  { rank: 7, entidad: "ICBF", valor: 8_500_000_000_000, pct_acumulado: 55.6 },
+  { rank: 8, entidad: "Min. Vivienda", valor: 7_400_000_000_000, pct_acumulado: 60.7 },
+  { rank: 9, entidad: "Min. Transporte", valor: 6_800_000_000_000, pct_acumulado: 65.4 },
+  { rank: 10, entidad: "DPS", valor: 5_900_000_000_000, pct_acumulado: 69.5 },
+  { rank: 15, entidad: "(otros)", valor: 4_200_000_000_000, pct_acumulado: 80.0 },
+  { rank: 20, entidad: "(otros)", valor: 2_800_000_000_000, pct_acumulado: 86.4 },
+  { rank: 40, entidad: "(otros)", valor: 1_900_000_000_000, pct_acumulado: 94.1 },
+  { rank: 80, entidad: "(otros)", valor: 800_000_000_000, pct_acumulado: 100.0 },
+];
+
+export const mockBrechaGenero: BrechaGenero[] = [
+  { genero: "M", promedio: 142_500_000, mediana: 38_400_000, contratos: 612_400 },
+  { genero: "F", promedio: 98_300_000, mediana: 31_200_000, contratos: 358_900 },
+  { genero: "Otro", promedio: 76_800_000, mediana: 24_900_000, contratos: 28_700 },
+];
+
+export const mockAnomalias: Anomalia[] = [
+  {
+    id: "ANO-001",
+    entidad: "Alcaldía de Bogotá",
+    contratista: "Constructora XYZ S.A.S",
+    valor: 2_400_000_000,
+    modalidad: "Contratación Directa",
+    fecha: "2024-09-12",
+    verdict: "REVISAR",
+    sustento: "Valor 4.8x superior al promedio del tipo de contrato. Adjudicación directa sin justificación pública detallada.",
+  },
+  {
+    id: "ANO-002",
+    entidad: "Gobernación del Atlántico",
+    contratista: "Servicios Integrales SAS",
+    valor: 1_850_000_000,
+    modalidad: "Mínima Cuantía",
+    fecha: "2024-08-03",
+    verdict: "FALSO",
+    sustento: "Valor reportado supera el tope de mínima cuantía. Posible mala clasificación de modalidad.",
+  },
+  {
+    id: "ANO-003",
+    entidad: "Min. Vivienda",
+    contratista: "Construcciones del Norte",
+    valor: 8_900_000_000,
+    modalidad: "Licitación Pública",
+    fecha: "2024-07-21",
+    verdict: "VERIDICO",
+    sustento: "Adjudicación con 14 oferentes y precios alineados al mercado. Sin observaciones.",
+  },
+  {
+    id: "ANO-004",
+    entidad: "ICBF Regional Cauca",
+    contratista: "Operador Social Andino",
+    valor: 4_120_000_000,
+    modalidad: "Contratación Directa",
+    fecha: "2024-10-04",
+    verdict: "REVISAR",
+    sustento: "Tercer contrato consecutivo al mismo operador en 18 meses. Recomendable revisión por parte de control interno.",
+  },
+  {
+    id: "ANO-005",
+    entidad: "Hospital San Vicente",
+    contratista: "Suministros Médicos del Eje",
+    valor: 980_000_000,
+    modalidad: "Mínima Cuantía",
+    fecha: "2024-06-15",
+    verdict: "VERIDICO",
+    sustento: "Compra de insumos críticos durante alerta sanitaria. Documentación completa.",
+  },
+  {
+    id: "ANO-006",
+    entidad: "Alcaldía de Cartagena",
+    contratista: "Eventos & Producciones",
+    valor: 720_000_000,
+    modalidad: "Contratación Directa",
+    fecha: "2024-11-09",
+    verdict: "REVISAR",
+    sustento: "Contrato de eventos con valor inusualmente alto. Falta de pliegos detallados públicos.",
+  },
+  {
+    id: "ANO-007",
+    entidad: "Min. Transporte",
+    contratista: "Concesión Vial del Sur",
+    valor: 12_400_000_000,
+    modalidad: "Concesión",
+    fecha: "2024-05-30",
+    verdict: "VERIDICO",
+    sustento: "Concesión multianual con validación técnica de la ANI. Contratos de obra revisados por auditoría.",
+  },
+  {
+    id: "ANO-008",
+    entidad: "Gobernación de Nariño",
+    contratista: "Construcciones El Pacífico",
+    valor: 3_200_000_000,
+    modalidad: "Selección Abreviada",
+    fecha: "2024-04-18",
+    verdict: "FALSO",
+    sustento: "Datos del contratista no coinciden con registro mercantil. Inconsistencias en RUT.",
+  },
+  {
+    id: "ANO-009",
+    entidad: "Min. Salud",
+    contratista: "Insumos Hospitalarios LTDA",
+    valor: 5_600_000_000,
+    modalidad: "Licitación Pública",
+    fecha: "2024-09-28",
+    verdict: "VERIDICO",
+    sustento: "Adjudicación tras proceso licitatorio con 9 oferentes y verificación de calidad.",
+  },
+  {
+    id: "ANO-010",
+    entidad: "Alcaldía de Cali",
+    contratista: "Servicios Logísticos del Valle",
+    valor: 1_400_000_000,
+    modalidad: "Contratación Directa",
+    fecha: "2024-08-22",
+    verdict: "REVISAR",
+    sustento: "Concentración de contratos en mismo proveedor durante el último trimestre.",
+  },
+];
+
+export const mockMapaDeptos: MapaDepto[] = [
+  { codigo: "11", nombre: "Bogotá D.C.", contratos: 184_320, valor_total: 32_400_000_000_000 },
+  { codigo: "05", nombre: "Antioquia", contratos: 98_540, valor_total: 18_200_000_000_000 },
+  { codigo: "76", nombre: "Valle del Cauca", contratos: 76_120, valor_total: 14_100_000_000_000 },
+  { codigo: "25", nombre: "Cundinamarca", contratos: 64_800, valor_total: 11_900_000_000_000 },
+  { codigo: "08", nombre: "Atlántico", contratos: 52_300, valor_total: 9_700_000_000_000 },
+  { codigo: "68", nombre: "Santander", contratos: 48_120, valor_total: 8_900_000_000_000 },
+  { codigo: "13", nombre: "Bolívar", contratos: 41_600, valor_total: 7_700_000_000_000 },
+  { codigo: "52", nombre: "Nariño", contratos: 35_400, valor_total: 6_500_000_000_000 },
+  { codigo: "54", nombre: "Norte de Santander", contratos: 32_140, valor_total: 5_900_000_000_000 },
+  { codigo: "73", nombre: "Tolima", contratos: 29_800, valor_total: 5_400_000_000_000 },
+  { codigo: "66", nombre: "Risaralda", contratos: 26_400, valor_total: 4_700_000_000_000 },
+  { codigo: "63", nombre: "Quindío", contratos: 18_900, valor_total: 3_200_000_000_000 },
+  { codigo: "17", nombre: "Caldas", contratos: 24_100, valor_total: 4_300_000_000_000 },
+  { codigo: "41", nombre: "Huila", contratos: 22_700, valor_total: 4_000_000_000_000 },
+  { codigo: "23", nombre: "Córdoba", contratos: 28_300, valor_total: 5_100_000_000_000 },
+  { codigo: "70", nombre: "Sucre", contratos: 14_200, valor_total: 2_500_000_000_000 },
+  { codigo: "20", nombre: "Cesar", contratos: 19_800, valor_total: 3_500_000_000_000 },
+  { codigo: "44", nombre: "La Guajira", contratos: 13_900, valor_total: 2_400_000_000_000 },
+  { codigo: "47", nombre: "Magdalena", contratos: 21_200, valor_total: 3_800_000_000_000 },
+  { codigo: "50", nombre: "Meta", contratos: 23_500, valor_total: 4_200_000_000_000 },
+  { codigo: "85", nombre: "Casanare", contratos: 11_200, valor_total: 2_000_000_000_000 },
+  { codigo: "15", nombre: "Boyacá", contratos: 27_400, valor_total: 4_900_000_000_000 },
+  { codigo: "19", nombre: "Cauca", contratos: 25_700, valor_total: 4_600_000_000_000 },
+  { codigo: "27", nombre: "Chocó", contratos: 9_800, valor_total: 1_700_000_000_000 },
+  { codigo: "86", nombre: "Putumayo", contratos: 7_400, valor_total: 1_300_000_000_000 },
+  { codigo: "18", nombre: "Caquetá", contratos: 8_900, valor_total: 1_600_000_000_000 },
+  { codigo: "81", nombre: "Arauca", contratos: 6_700, valor_total: 1_200_000_000_000 },
+  { codigo: "95", nombre: "Guaviare", contratos: 4_100, valor_total: 720_000_000_000 },
+  { codigo: "94", nombre: "Guainía", contratos: 2_800, valor_total: 480_000_000_000 },
+  { codigo: "97", nombre: "Vaupés", contratos: 2_300, valor_total: 410_000_000_000 },
+  { codigo: "99", nombre: "Vichada", contratos: 3_400, valor_total: 590_000_000_000 },
+  { codigo: "91", nombre: "Amazonas", contratos: 3_900, valor_total: 680_000_000_000 },
+  { codigo: "88", nombre: "San Andrés", contratos: 4_500, valor_total: 800_000_000_000 },
+];

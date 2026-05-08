@@ -1,0 +1,287 @@
+{
+  "Q3_total": 1003902,
+  "Q4_cols": 84,
+  "fecha_firma_min": "01/01/2025",
+  "fecha_firma_max": "12/31/2025",
+  "Q5_2025": 999490,
+  "Q6_pyme_pct": 13.2,
+  "Q7_pyme_count": 132479,
+  "Q8_top10_deptos": [
+    [
+      "Distrito Capital de Bogotá",
+      280248
+    ],
+    [
+      "Valle del Cauca",
+      109856
+    ],
+    [
+      "Antioquia",
+      105810
+    ],
+    [
+      "Cundinamarca",
+      49499
+    ],
+    [
+      "Santander",
+      47128
+    ],
+    [
+      "Magdalena",
+      32097
+    ],
+    [
+      "Bolívar",
+      31612
+    ],
+    [
+      "Atlántico",
+      31428
+    ],
+    [
+      "Boyacá",
+      30849
+    ],
+    [
+      "Tolima",
+      27823
+    ]
+  ],
+  "Q9_pos6_dept": "Magdalena",
+  "Q9_pos6_count": 32097,
+  "top5_modalidades": [
+    [
+      "Contratación directa",
+      759993
+    ],
+    [
+      "Contratación régimen especial",
+      152957
+    ],
+    [
+      "Mínima cuantía",
+      49119
+    ],
+    [
+      "Contratación Directa (con ofertas)",
+      9989
+    ],
+    [
+      "Selección Abreviada de Menor Cuantía",
+      9465
+    ]
+  ],
+  "Q10_modalidad": "Contratación directa",
+  "Q11_count_modalidad": 759993,
+  "Q12_top3_entidades": [
+    [
+      "DISTRITO ESPECIAL DE CIENCIA TECNOLOGIA E INNOVACION DE MEDELLIN",
+      7192818196456.0
+    ],
+    [
+      "MINISTERIO DE MINAS Y ENERGIA",
+      5117844982872.0
+    ],
+    [
+      "DEPARTAMENTO DE ANTIOQUIA//",
+      3842869199771.0
+    ]
+  ],
+  "Q12_top5_entidades": [
+    [
+      "DISTRITO ESPECIAL DE CIENCIA TECNOLOGIA E INNOVACION DE MEDELLIN",
+      7192818196456.0
+    ],
+    [
+      "MINISTERIO DE MINAS Y ENERGIA",
+      5117844982872.0
+    ],
+    [
+      "DEPARTAMENTO DE ANTIOQUIA//",
+      3842869199771.0
+    ],
+    [
+      "MINISTERIO DE COMERCIO INDUSTRIA Y TURISMO - MINCIT",
+      3322214133799.0
+    ],
+    [
+      "GOBERNACIÓN DE BOYACÁ",
+      3224299194519.0
+    ]
+  ],
+  "Q13_top5_tipos": [
+    [
+      "Prestación de servicios",
+      860913
+    ],
+    [
+      "Decreto 092 de 2017",
+      41384
+    ],
+    [
+      "Otro",
+      37616
+    ],
+    [
+      "Suministros",
+      22669
+    ],
+    [
+      "Compraventa",
+      16845
+    ]
+  ],
+  "Q14_pct_top1": 85.76,
+  "Q15_top10_valores": [
+    [
+      "MINISTERIO DE MINAS Y ENERGIA",
+      "GECELCA S.A. E.S.P.",
+      "900082143",
+      4205027751839.0,
+      "CO1.PCCNTR.8738616",
+      "12/29/2025",
+      "Contratación Directa (con ofertas)"
+    ],
+    [
+      "MINISTERIO DE COMERCIO INDUSTRIA Y TURISMO - MINCIT",
+      "Zona Franca Barranquilla",
+      "800186284",
+      2846224257835.0,
+      "CO1.PCCNTR.7379758",
+      "01/31/2025",
+      "Seleccion Abreviada Menor Cuantia Sin Manifestacion Interes"
+    ],
+    [
+      "RNEC",
+      "UNION TEMPORAL INTEGRACION LOGISTICA ELECTORAL 2026",
+      "901965187",
+      2553311282500.0,
+      "CO1.PCCNTR.8067244",
+      "07/11/2025",
+      "Selección Abreviada de Menor Cuantía"
+    ],
+    [
+      "GOBERNACIÓN DE BOYACÁ",
+      "Yesid Avila Torres",
+      "74372236",
+      2385617800000.0,
+      "CO1.PCCNTR.7466530",
+      "02/14/2025",
+      "Selección abreviada subasta inversa"
+    ],
+    [
+      "MINSALUD",
+      "HOSPITAL UNIVERSITARIO SAN JUAN DE DIOS Y MATERNO INFANTIL",
+      "901933432",
+      1615266971115.0,
+      "CO1.PCCNTR.8739217",
+      "12/29/2025",
+      "Contratación directa"
+    ],
+    [
+      "ALCALDIA MUNICIPIO DE SITIONUEVO",
+      "CONSORCIO K&G SAMUEL MEJIA",
+      "901974167",
+      998049859557.0,
+      "CO1.PCCNTR.8069219",
+      "07/23/2025",
+      "Licitación pública Obra Publica"
+    ],
+    [
+      "EJERCITO DIRECCION DE ADQUISICIONES",
+      "AGENCIA LOGISTICA DE LAS FUERZAS MILITARES",
+      "899999162",
+      789845390927.0,
+      "CO1.PCCNTR.8285865",
+      "09/12/2025",
+      "Contratación Directa (con ofertas)"
+    ],
+    [
+      "MINTRABAJO NIVEL CENTRAL*/",
+      "PROSPERIDAD SOCIAL",
+      "900039533",
+      770095956400.0,
+      "CO1.PCCNTR.8565538",
+      "11/07/2025",
+      "Contratación directa"
+    ],
+    [
+      "SANTIAGO DE CALI DISTRITO ESPECIAL - DEPARTAMENTO ADMINISTRATIVO DE HACIENDA",
+      "Banco Davivienda",
+      "8600343137",
+      600000000000.0,
+      "CO1.PCCNTR.7868084",
+      "05/12/2025",
+      "Contratación directa"
+    ],
+    [
+      "MUNICIPIO DE QUIMBAYA",
+      "NEPSA DEL QUINDIO EMPRESA REGIONAL DE SERVICIOS PUBLICOS S.A.  E.S.P.",
+      "900345567",
+      572490000000.0,
+      "CO1.PCCNTR.7584301",
+      "02/28/2025",
+      "Contratación Directa (con ofertas)"
+    ]
+  ],
+  "Q16_pct_adelantado": 0.08,
+  "Q16_count_adelantado": 756,
+  "Q17_ambiental": 21347,
+  "Q18_pareto_quintiles": [
+    [
+      1,
+      152888126286452.0,
+      114170
+    ],
+    [
+      2,
+      6122744031968.0,
+      114170
+    ],
+    [
+      3,
+      4012210908521.0,
+      114169
+    ],
+    [
+      4,
+      2574614284420.0,
+      114169
+    ],
+    [
+      5,
+      1105598384052.0,
+      114169
+    ]
+  ],
+  "Q18_top20_pct": 91.71,
+  "Q18_total_proveedores": 570847,
+  "Q19_genero": [
+    [
+      "No Definido",
+      188960,
+      75497039656375.0,
+      399539794.96388125
+    ],
+    [
+      "Hombre",
+      378213,
+      53439223860712.0,
+      141293990.05510652
+    ],
+    [
+      "Mujer",
+      434081,
+      36474139893372.0,
+      84026114.6960406
+    ],
+    [
+      "Otro",
+      2648,
+      1292890484954.0,
+      488251693.71374625
+    ]
+  ],
+  "Q20_anomalias": "Las 84 columnas vienen como TEXT en CSV. Anomalias de tipo donde deberian ser numerico/fecha/booleano: (1) Valor del Contrato y todos los Valor* deberian ser DECIMAL/numeric, vienen como string. (2) Fecha de Firma y todas las Fecha* deberian ser DATE, vienen como string. (3) Es Pyme, Es Grupo, Habilita Pago Adelantado, Obligacion Ambiental deberian ser BOOLEAN, vienen como Si/No. (4) Dias Adicionados deberia ser INTEGER. (5) Nit Entidad y Documento Proveedor deberian ser STRING (NIT/CC) pero a veces se castea a NUMBER perdiendo el digito de verificacion."
+}
