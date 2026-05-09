@@ -17,7 +17,7 @@ class GeneroService:
         rows = await self.db.fetch(
             f"""
             SELECT
-                COALESCE(NULLIF(TRIM("Género Representante Legal"), ''), 'Sin dato') AS genero,
+                COALESCE(NULLIF(TRIM(genero_representante_legal), ''), 'Sin dato') AS genero,
                 COUNT(*)::int AS count,
                 COALESCE(SUM(valor_contrato_num), 0)::float AS total_valor,
                 COALESCE(AVG(valor_contrato_num), 0)::float AS promedio,

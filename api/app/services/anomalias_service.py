@@ -47,10 +47,10 @@ class AnomaliasService:
         rows = await self.db.fetch(
             f"""
             SELECT
-                "ID Contrato" AS id_contrato,
-                "Nombre Entidad" AS entidad,
-                "Proveedor Adjudicado" AS proveedor,
-                "Objeto del Contrato" AS objeto,
+                id_contrato AS id_contrato,
+                nombre_entidad AS entidad,
+                proveedor_adjudicado AS proveedor,
+                objeto_del_contrato AS objeto,
                 "Departamento" AS departamento,
                 COALESCE(valor_contrato_num, 0)::float AS valor_contrato,
                 COALESCE(valor_pagado_num, 0)::float AS valor_pagado,
@@ -89,13 +89,13 @@ class AnomaliasService:
         row = await self.db.fetchrow(
             f"""
             SELECT
-                "ID Contrato" AS id_contrato,
-                "Tipo de Contrato" AS tipo,
-                "Modalidad de Contratacion" AS modalidad,
+                id_contrato AS id_contrato,
+                tipo_de_contrato AS tipo,
+                modalidad_de_contratacion AS modalidad,
                 COALESCE(valor_contrato_num, 0)::float AS valor_contrato,
                 COALESCE(valor_pagado_num, 0)::float AS valor_pagado
             FROM {self.settings.data_table_name}
-            WHERE "ID Contrato" = $1
+            WHERE id_contrato = $1
             LIMIT 1
             """,
             id_contrato,
@@ -114,7 +114,7 @@ class AnomaliasService:
                 AVG(valor_contrato_num)::float AS media,
                 STDDEV_POP(valor_contrato_num)::float AS desv
             FROM {self.settings.data_table_name}
-            WHERE "Tipo de Contrato" = $1
+            WHERE tipo_de_contrato = $1
               AND valor_contrato_num IS NOT NULL
               AND valor_contrato_num > 0
             """,

@@ -61,9 +61,9 @@ class DepartamentosService:
         sample_rows = await self.db.fetch(
             f"""
             SELECT
-                "ID Contrato" AS id_contrato,
-                "Nombre Entidad" AS entidad,
-                "Objeto del Contrato" AS objeto,
+                id_contrato AS id_contrato,
+                nombre_entidad AS entidad,
+                objeto_del_contrato AS objeto,
                 COALESCE(valor_contrato_num, 0)::float AS valor
             FROM {self.settings.data_table_name}
             WHERE LOWER("Departamento") = LOWER($1)

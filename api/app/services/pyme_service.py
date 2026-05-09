@@ -18,7 +18,7 @@ class PymeService:
         row = await self.db.fetchrow(
             f"""
             SELECT
-                COUNT(*) FILTER (WHERE "Es Pyme" = 'Si')::int AS pyme,
+                COUNT(*) FILTER (WHERE es_pyme = 'Si')::int AS pyme,
                 COUNT(*)::int AS total
             FROM {self.settings.data_table_name}
             """

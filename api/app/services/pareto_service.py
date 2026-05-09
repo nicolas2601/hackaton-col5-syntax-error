@@ -19,11 +19,11 @@ class ParetoService:
             f"""
             WITH agg AS (
                 SELECT
-                    "Nit Entidad" AS nit,
+                    nit_entidad AS nit,
                     COALESCE(SUM(valor_pagado_num), 0)::float AS dinero
                 FROM {self.settings.data_table_name}
-                WHERE "Nit Entidad" IS NOT NULL AND "Nit Entidad" <> ''
-                GROUP BY "Nit Entidad"
+                WHERE nit_entidad IS NOT NULL AND nit_entidad <> ''
+                GROUP BY nit_entidad
                 HAVING COALESCE(SUM(valor_pagado_num), 0) > 0
             ),
             ranked AS (

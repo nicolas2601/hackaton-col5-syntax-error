@@ -19,15 +19,15 @@ class EntidadesService:
         rows = await self.db.fetch(
             f"""
             SELECT
-                "Nit Entidad" AS nit,
-                MAX("Nombre Entidad") AS nombre,
+                nit_entidad AS nit,
+                MAX(nombre_entidad) AS nombre,
                 COUNT(*)::int AS contratos,
                 COALESCE(SUM(valor_pagado_num), 0)::float AS dinero_ejecutado,
                 COALESCE(SUM(valor_contrato_num), 0)::float AS valor_total
             FROM {self.settings.data_table_name}
-            WHERE "Nit Entidad" IS NOT NULL
-              AND "Nit Entidad" <> ''
-            GROUP BY "Nit Entidad"
+            WHERE nit_entidad IS NOT NULL
+              AND nit_entidad <> ''
+            GROUP BY nit_entidad
             ORDER BY dinero_ejecutado DESC
             LIMIT $1
             """,
@@ -49,8 +49,8 @@ class EntidadesService:
         agg = await self.db.fetchrow(
             f"""
             SELECT
-                "Nit Entidad" AS nit,
-                MAX("Nombre Entidad") AS nombre,
+                nit_entidad AS nit,
+                MAX(nombre_entidad) AS nombre,
                 MAX("Sector") AS sector,
                 MAX("Rama") AS rama,
                 MAX("Orden") AS orden,
@@ -58,8 +58,8 @@ class EntidadesService:
                 COALESCE(SUM(valor_pagado_num), 0)::float AS dinero_ejecutado,
                 COALESCE(SUM(valor_contrato_num), 0)::float AS valor_total
             FROM {self.settings.data_table_name}
-            WHERE "Nit Entidad" = $1
-            GROUP BY "Nit Entidad"
+            WHERE nit_entidad = $1
+            GROUP BY nit_entidad
             """,
             nit,
         )
@@ -73,7 +73,7 @@ class EntidadesService:
             f"""
             SELECT DISTINCT "Departamento" AS depto
             FROM {self.settings.data_table_name}
-            WHERE "Nit Entidad" = $1 AND "Departamento" IS NOT NULL
+            WHERE nit_entidad = $1 AND "Departamento" IS NOT NULL
             ORDER BY depto
             """,
             nit,

@@ -22,12 +22,12 @@ class ModalidadesService:
         rows = await self.db.fetch(
             f"""
             SELECT
-                "Modalidad de Contratacion" AS modalidad,
+                modalidad_de_contratacion AS modalidad,
                 COUNT(*)::int AS count
             FROM {self.settings.data_table_name}
-            WHERE "Modalidad de Contratacion" IS NOT NULL
-              AND "Modalidad de Contratacion" <> ''
-            GROUP BY "Modalidad de Contratacion"
+            WHERE modalidad_de_contratacion IS NOT NULL
+              AND modalidad_de_contratacion <> ''
+            GROUP BY modalidad_de_contratacion
             ORDER BY count DESC
             LIMIT $1
             """,
@@ -49,14 +49,14 @@ class ModalidadesService:
         rows = await self.db.fetch(
             f"""
             SELECT
-                "ID Contrato" AS id_contrato,
-                "Nombre Entidad" AS entidad,
-                "Objeto del Contrato" AS objeto,
+                id_contrato AS id_contrato,
+                nombre_entidad AS entidad,
+                objeto_del_contrato AS objeto,
                 "Departamento" AS departamento,
-                "Fecha de Firma" AS fecha_firma,
+                fecha_de_firma AS fecha_firma,
                 COALESCE(valor_contrato_num, 0)::float AS valor
             FROM {self.settings.data_table_name}
-            WHERE LOWER("Modalidad de Contratacion") = LOWER($1)
+            WHERE LOWER(modalidad_de_contratacion) = LOWER($1)
             ORDER BY valor_contrato_num DESC NULLS LAST
             LIMIT $2 OFFSET $3
             """,

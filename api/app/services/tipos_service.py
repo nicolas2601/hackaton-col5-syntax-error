@@ -21,10 +21,10 @@ class TiposService:
 
         rows = await self.db.fetch(
             f"""
-            SELECT "Tipo de Contrato" AS tipo, COUNT(*)::int AS count
+            SELECT tipo_de_contrato AS tipo, COUNT(*)::int AS count
             FROM {self.settings.data_table_name}
-            WHERE "Tipo de Contrato" IS NOT NULL AND "Tipo de Contrato" <> ''
-            GROUP BY "Tipo de Contrato"
+            WHERE tipo_de_contrato IS NOT NULL AND tipo_de_contrato <> ''
+            GROUP BY tipo_de_contrato
             ORDER BY count DESC
             LIMIT $1
             """,

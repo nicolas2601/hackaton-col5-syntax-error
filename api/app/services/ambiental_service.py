@@ -17,10 +17,10 @@ class AmbientalService:
         row = await self.db.fetchrow(
             f"""
             SELECT
-                COUNT(*) FILTER (WHERE "Obligación Ambiental" = 'Si')::int AS amb_count,
+                COUNT(*) FILTER (WHERE obligacion_ambiental = 'Si')::int AS amb_count,
                 COUNT(*)::int AS total,
                 COALESCE(SUM(valor_contrato_num)
-                    FILTER (WHERE "Obligación Ambiental" = 'Si'), 0)::float AS valor_total
+                    FILTER (WHERE obligacion_ambiental = 'Si'), 0)::float AS valor_total
             FROM {self.settings.data_table_name}
             """
         )
@@ -40,10 +40,10 @@ class AmbientalService:
         row = await self.db.fetchrow(
             f"""
             SELECT
-                COUNT(*) FILTER (WHERE "Habilita Pago Adelantado" = 'Si')::int AS ant_count,
+                COUNT(*) FILTER (WHERE habilita_pago_adelantado = 'Si')::int AS ant_count,
                 COUNT(*)::int AS total,
                 COALESCE(SUM(valor_pago_adelantado_num)
-                    FILTER (WHERE "Habilita Pago Adelantado" = 'Si'), 0)::float AS total_anticipos
+                    FILTER (WHERE habilita_pago_adelantado = 'Si'), 0)::float AS total_anticipos
             FROM {self.settings.data_table_name}
             """
         )
