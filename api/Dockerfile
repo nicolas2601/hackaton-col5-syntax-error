@@ -10,8 +10,9 @@ ARG BUILDPLATFORM
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
-    UV_SYSTEM_PYTHON=1 \
-    UV_LINK_MODE=copy
+    UV_LINK_MODE=copy \
+    VIRTUAL_ENV=/opt/venv \
+    PATH="/opt/venv/bin:$PATH"
 
 # Instalar uv (works for amd64+arm64 via the official install script)
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -30,7 +31,8 @@ RUN uv venv /opt/venv \
     && . /opt/venv/bin/activate \
     && uv pip install --no-cache -r pyproject.toml
 
-# Copiar código y instalar el paquete
+# Copiar código y README (requerido por pyproject) e instalar el paquete
+COPY README.md ./README.md
 COPY app ./app
 RUN . /opt/venv/bin/activate && uv pip install --no-cache .
 

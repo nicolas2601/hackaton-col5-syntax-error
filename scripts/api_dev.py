@@ -23,6 +23,10 @@ from typing import Any
 import duckdb
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.openapi.docs import get_swagger_ui_html
+from fastapi.responses import HTMLResponse
+from pydantic import BaseModel, Field
+from typing import Literal
 
 CSV = "/tmp/ronda2/SECOP_II_-_Contratos_Electrónicos_20260506.csv"
 
@@ -425,11 +429,218 @@ async def lifespan(app: FastAPI):
     app.state.con.close()
 
 
+# =========================================================================
+# Pydantic response models (enrich Swagger schema)
+# =========================================================================
+class HealthResponse(BaseModel):
+    status: Literal["ok"] = "ok"
+    total: int = Field(..., description="Total de contratos cargados en memoria", example=1003902)
+    csv: str = Field(..., description="Path absoluto del CSV fuente", example="/data/secop.csv")
+    ready: bool = Field(..., description="True si el precompute terminó", example=True)
+
+
+class StatsTotal(BaseModel):
+    total_registros: int = Field(..., example=1003902)
+    total_pymes: int = Field(..., example=132479)
+    pct_pymes: float = Field(..., description="Porcentaje de Pymes (0-100)", example=13.20)
+    total_directa: int = Field(..., description="Contratos por Contratación Directa", example=759993)
+    pct_directa: float = Field(..., example=75.70)
+    pareto_entidades: int = Field(..., description="Entidades que concentran 80% del valor", example=285)
+    pareto_pct_valor: int = Field(..., example=80)
+    total_valor: float = Field(..., description="Valor agregado en COP", example=166703293895413.0)
+
+
+class DepartamentoTop(BaseModel):
+    departamento: str = Field(..., example="Distrito Capital de Bogotá")
+    contratos: int = Field(..., example=280248)
+    valor_total: float = Field(..., example=69469406868337.0)
+    pct: float = Field(..., description="Porcentaje sobre los top 15 deptos", example=27.92)
+
+
+class ModalidadStat(BaseModel):
+    modalidad: str = Field(..., example="Contratación directa")
+    contratos: int = Field(..., example=759993)
+    pct: float = Field(..., example=75.70)
+
+
+class TipoContratoStat(BaseModel):
+    tipo: str = Field(..., example="Prestación de servicios")
+    contratos: int = Field(..., example=860913)
+    valor_total: float = Field(..., example=52847104050186.0)
+
+
+class EntidadTop(BaseModel):
+    entidad: str = Field(..., example="DISTRITO ESPECIAL DE CIENCIA TECNOLOGIA E INNOVACION DE MEDELLIN")
+    valor_total: float = Field(..., example=7192818196456.0)
+    contratos: int = Field(..., example=1446)
+
+
+class DistribucionTemporal(BaseModel):
+    mes: str = Field(..., description="Año-mes en formato YYYY-MM", example="2025-12")
+    contratos: int = Field(..., example=89432)
+    valor_total: float = Field(..., example=12345678901.0)
+
+
+class ParetoPunto(BaseModel):
+    rank: int = Field(..., example=1)
+    entidad: str = Field(..., example="DISTRITO ESPECIAL DE CTI MEDELLIN")
+    valor: float = Field(..., example=7192818196456.0)
+    pct_acumulado: float = Field(..., description="% acumulado del valor total", example=4.31)
+
+
+class BrechaGenero(BaseModel):
+    genero: Literal["M", "F", "Otro"] = Field(..., example="M")
+    promedio: float = Field(..., description="Valor promedio por contrato (COP)", example=141293990.0)
+    mediana: float = Field(..., example=20400000.0)
+    contratos: int = Field(..., example=378213)
+
+
+class Anomalia(BaseModel):
+    id: str = Field(..., example="CO1.PCCNTR.8738616")
+    entidad: str = Field(..., example="MINISTERIO DE MINAS Y ENERGIA")
+    contratista: str = Field(..., example="GECELCA S.A. E.S.P.")
+    valor: float = Field(..., example=4205027751839.0)
+    modalidad: str = Field(..., example="Contratación directa")
+    fecha: str = Field(..., description="Fecha en formato MM/DD/YYYY del CSV original", example="12/29/2025")
+    verdict: Literal["VERIDICO", "FALSO", "REVISAR"] = Field(..., example="VERIDICO")
+    sustento: str = Field(..., description="Razonamiento textual de la clasificación")
+
+
+class MapaDepto(BaseModel):
+    codigo: str = Field(..., description="ISO DANE 2 dígitos", example="11")
+    nombre: str = Field(..., example="Distrito Capital de Bogotá")
+    contratos: int = Field(..., example=280248)
+    valor_total: float = Field(..., example=69469406868337.0)
+
+
+# =========================================================================
+# OpenAPI tags (rich descriptions in Swagger)
+# =========================================================================
+OPENAPI_TAGS = [
+    {
+        "name": "meta",
+        "description": "Endpoints meta del servicio: liveness, versión, estado del cache.",
+    },
+    {
+        "name": "stats",
+        "description": "**Agregados globales** del snapshot SECOP II 2025: total, Pymes, contratación directa, valor agregado, Pareto.",
+    },
+    {
+        "name": "departamentos",
+        "description": "**Distribución geográfica** de contratos por departamento. Útil para choropleth de Colombia.",
+    },
+    {
+        "name": "modalidades",
+        "description": "**Modalidades de contratación** (Contratación directa, Licitación, Selección abreviada, etc). Top 5 disponibles.",
+    },
+    {
+        "name": "tipos",
+        "description": "**Tipos de contrato** (Prestación de servicios, Suministros, Compraventa, etc).",
+    },
+    {
+        "name": "entidades",
+        "description": "**Top entidades públicas** por valor agregado contratado.",
+    },
+    {
+        "name": "temporal",
+        "description": "**Distribución temporal** de contratos por mes (formato YYYY-MM).",
+    },
+    {
+        "name": "pareto",
+        "description": "**Curva de Pareto** sobre concentración de valor entre entidades. Permite detectar concentración 80/20 vs ratios más extremos (7/80 en este dataset).",
+    },
+    {
+        "name": "genero",
+        "description": "**Brecha de género financiera** sobre representantes legales personas naturales (H/M/Otro).",
+    },
+    {
+        "name": "anomalias",
+        "description": "**Top 10 valores anómalos** con clasificación IA `VERIDICO` / `FALSO` / `REVISAR` y sustento textual.",
+    },
+    {
+        "name": "mapa",
+        "description": "**Choropleth Colombia**: contratos y valor agregado por departamento con código ISO DANE.",
+    },
+]
+
+
+# =========================================================================
+# FastAPI app
+# =========================================================================
+APP_DESCRIPTION = """
+# SECOP II API — Hackaton Nacional COL 5.0
+
+API REST open-source de **transparencia sobre la contratación pública colombiana**, construida sobre el snapshot oficial 2025 de SECOP II (Colombia Compra Eficiente).
+
+## Equipo Syntax Error
+
+- **Nicolás Moreno** ([@nicolas2601](https://github.com/nicolas2601)) — Capitán
+- **Paula Saavedra** ([@Paulasaah](https://github.com/Paulasaah))
+- **Andre Julián** ([@Andrejulian21](https://github.com/Andrejulian21))
+- **Nathalia Quintero** ([@NathQuintero](https://github.com/NathQuintero))
+
+## Dataset
+
+| Métrica | Valor |
+|---|---|
+| Contratos | **1,003,902** |
+| Departamentos | **33** |
+| Valor agregado | **$166.7 billones COP** |
+| Snapshot | **2026-05-06** |
+| Fuente | [datos.gov.co — jbjy-vk9h](https://www.datos.gov.co/Estad-sticas-Nacionales/SECOP-II-Contratos-Electr-nicos/jbjy-vk9h) |
+
+## Stack
+
+- **Backend**: FastAPI 0.115 + DuckDB 1.5 sobre CSV
+- **Pre-cómputo en startup** (~30s warmup), después latencia <20ms desde memoria
+- **CORS abierto**, sin autenticación
+- **OpenAPI 3.1** spec en [`/openapi.json`](/openapi.json)
+
+## Marco legal
+
+| Ley | Aplicación |
+|---|---|
+| **Ley 1712/2014** | Transparencia y acceso a info pública |
+| **Ley 1581/2012** | Habeas Data — no se redistribuye PII |
+| **Ley 1273/2009** | Delitos informáticos — uso únicamente educativo |
+
+## Hallazgos críticos del dataset
+
+- **75.7%** de los contratos son **Contratación Directa** (sin licitación).
+- **Pareto 7/80**: solo el **7.23%** de las entidades ejecuta el **80%** del valor.
+- **Brecha de género**: mujeres ejecutan -31.7% del valor pese a firmar +15% más contratos.
+- **0.08%** de los contratos tiene anticipos.
+- **5 columnas de fondos** vienen 100% null en el dataset oficial.
+
+## Recursos
+
+- 🌐 **Dashboard**: [panel.tikno.pro](https://panel.tikno.pro)
+- 📦 **Repo**: [github.com/nicolas2601/hackaton-col5-syntax-error](https://github.com/nicolas2601/hackaton-col5-syntax-error)
+- 🐟 **Repo Pez Gordo**: [github.com/nicolas2601/pez-gordo-audit](https://github.com/nicolas2601/pez-gordo-audit)
+- 📚 **Docs técnicos**: [panel.tikno.pro/docs/overview](https://panel.tikno.pro/docs/overview)
+"""
+
+
 app = FastAPI(
-    title="SECOP II API — Hackaton COL 5.0",
-    description="API REST sobre el snapshot SECOP II 2025 (1M contratos via DuckDB)",
-    version="0.2.0-dev",
+    title="SECOP II API · Hackaton Nacional COL 5.0",
+    description=APP_DESCRIPTION,
+    version="1.0.0",
     lifespan=lifespan,
+    openapi_tags=OPENAPI_TAGS,
+    contact={
+        "name": "Equipo Syntax Error",
+        "url": "https://github.com/nicolas2601/hackaton-col5-syntax-error",
+    },
+    license_info={
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT",
+    },
+    servers=[
+        {"url": "https://api-ronda2.tikno.pro", "description": "Producción"},
+        {"url": "http://localhost:8000", "description": "Local dev"},
+    ],
+    docs_url=None,  # custom Swagger UI con tema dark
+    redoc_url="/redoc",
 )
 
 app.add_middleware(
@@ -440,72 +651,185 @@ app.add_middleware(
 )
 
 
-# --- Health -----------------------------------------------------------------
-@app.get("/health", tags=["meta"])
-def health():
+# --- Custom Swagger UI con tema acorde al dashboard ------------------------
+@app.get("/docs", include_in_schema=False)
+async def custom_swagger_ui_html() -> HTMLResponse:
+    return get_swagger_ui_html(
+        openapi_url=app.openapi_url or "/openapi.json",
+        title=f"{app.title} · Swagger",
+        swagger_favicon_url="https://fav.farm/📊",
+        swagger_ui_parameters={
+            "syntaxHighlight.theme": "agate",
+            "tryItOutEnabled": True,
+            "filter": True,
+            "displayRequestDuration": True,
+            "docExpansion": "list",
+            "defaultModelsExpandDepth": 1,
+            "persistAuthorization": True,
+        },
+    )
+
+
+# =========================================================================
+# Health
+# =========================================================================
+@app.get(
+    "/health",
+    tags=["meta"],
+    summary="Liveness probe",
+    description="Confirma que el container está vivo, el CSV cargado y el cache de agregados pre-computado.",
+    response_model=HealthResponse,
+    responses={
+        200: {
+            "description": "Servicio saludable",
+            "content": {"application/json": {"example": {
+                "status": "ok",
+                "total": 1003902,
+                "csv": "/data/secop.csv",
+                "ready": True,
+            }}},
+        }
+    },
+)
+def health() -> HealthResponse:
     cache = getattr(app.state, "cache", {})
     total = cache.get("stats_total", {}).get("total_registros", 0)
-    return {"status": "ok", "total": total, "csv": CSV, "ready": bool(cache)}
+    return HealthResponse(status="ok", total=total, csv=CSV, ready=bool(cache))
 
 
-# --- Endpoints (shapes EXACTOS que consume el dashboard) -------------------
-@app.get("/api/v1/stats/total", tags=["stats"])
-def stats_total():
-    """StatsTotal — objeto plano."""
+# =========================================================================
+# Endpoints v1 — shapes consumidos por el dashboard Next.js
+# =========================================================================
+@app.get(
+    "/api/v1/stats/total",
+    tags=["stats"],
+    summary="KPIs globales del snapshot",
+    description=(
+        "Retorna **agregados globales** del snapshot SECOP II 2025: total de "
+        "contratos, Pymes, contratación directa, valor agregado en COP y "
+        "métricas de concentración (Pareto)."
+    ),
+    response_model=StatsTotal,
+)
+def stats_total() -> dict[str, Any]:
     return app.state.cache["stats_total"]
 
 
-@app.get("/api/v1/departamentos/top", tags=["departamentos"])
-def departamentos_top():
-    """DepartamentoTop[] — array directo."""
+@app.get(
+    "/api/v1/departamentos/top",
+    tags=["departamentos"],
+    summary="Top 10 departamentos",
+    description="Departamentos ordenados por **número de contratos publicados**, con valor agregado y porcentaje sobre el top 15.",
+    response_model=list[DepartamentoTop],
+)
+def departamentos_top() -> list[dict[str, Any]]:
     return app.state.cache["departamentos_top"]
 
 
-@app.get("/api/v1/modalidades", tags=["modalidades"])
-def modalidades():
-    """ModalidadStat[] — array directo."""
+@app.get(
+    "/api/v1/modalidades",
+    tags=["modalidades"],
+    summary="Distribución por modalidad",
+    description="Modalidades de contratación ordenadas DESC. **75.7%** de los contratos son por Contratación Directa.",
+    response_model=list[ModalidadStat],
+)
+def modalidades() -> list[dict[str, Any]]:
     return app.state.cache["modalidades"]
 
 
-@app.get("/api/v1/tipos-contrato", tags=["tipos"])
-def tipos_contrato():
-    """TipoContratoStat[] — array directo."""
+@app.get(
+    "/api/v1/tipos-contrato",
+    tags=["tipos"],
+    summary="Top 12 tipos de contrato",
+    description="Tipos de contrato (Prestación de servicios, Suministros, Compraventa, etc.) con count y valor agregado. **85.76%** son Prestación de Servicios.",
+    response_model=list[TipoContratoStat],
+)
+def tipos_contrato() -> list[dict[str, Any]]:
     return app.state.cache["tipos_contrato"]
 
 
-@app.get("/api/v1/entidades/top", tags=["entidades"])
-def entidades_top():
-    """EntidadTop[] — array directo."""
+@app.get(
+    "/api/v1/entidades/top",
+    tags=["entidades"],
+    summary="Top 20 entidades por valor",
+    description="Entidades públicas ordenadas por **valor agregado ejecutado** en COP. La #1 (Distrito CTI Medellín) sola contrata $7.19 billones.",
+    response_model=list[EntidadTop],
+)
+def entidades_top() -> list[dict[str, Any]]:
     return app.state.cache["entidades_top"]
 
 
-@app.get("/api/v1/temporal", tags=["temporal"])
-def temporal():
-    """DistribucionTemporal[] — array directo."""
+@app.get(
+    "/api/v1/temporal",
+    tags=["temporal"],
+    summary="Distribución mensual",
+    description="Contratos por mes en formato `YYYY-MM`. Útil para detectar estacionalidad y picos de fin de año.",
+    response_model=list[DistribucionTemporal],
+)
+def temporal() -> list[dict[str, Any]]:
     return app.state.cache["temporal"]
 
 
-@app.get("/api/v1/pareto/entidades", tags=["pareto"])
-def pareto_entidades():
-    """ParetoPunto[] — array directo."""
+@app.get(
+    "/api/v1/pareto/entidades",
+    tags=["pareto"],
+    summary="Curva de Pareto — concentración",
+    description=(
+        "Para cada rank, el **porcentaje acumulado del valor total** contratado. "
+        "Permite identificar el punto de quiebre donde el N% de las entidades acumula el 80% del valor.\n\n"
+        "**Insight clave del dataset**: solo **285 entidades (7.23%)** acumulan el 80% del valor — "
+        "concentración más extrema que la regla 80/20 clásica (Pareto 7/80)."
+    ),
+    response_model=list[ParetoPunto],
+)
+def pareto_entidades() -> list[dict[str, Any]]:
     return app.state.cache["pareto"]
 
 
-@app.get("/api/v1/genero/brecha", tags=["genero"])
-def genero_brecha():
-    """BrechaGenero[] — array directo."""
+@app.get(
+    "/api/v1/genero/brecha",
+    tags=["genero"],
+    summary="Brecha de género financiera",
+    description=(
+        "Stats por género del **representante legal** (personas naturales): contratos firmados, "
+        "valor promedio, mediana.\n\n"
+        "**Hallazgo:** las mujeres firman **+15%** más contratos que los hombres pero reciben "
+        "**-40.5%** menos por contrato en promedio (H = $141M, M = $84M)."
+    ),
+    response_model=list[BrechaGenero],
+)
+def genero_brecha() -> list[dict[str, Any]]:
     return app.state.cache["brecha_genero"]
 
 
-@app.get("/api/v1/anomalias", tags=["anomalias"])
-def anomalias():
-    """Anomalia[] — array directo."""
+@app.get(
+    "/api/v1/anomalias",
+    tags=["anomalias"],
+    summary="Top 10 valores anómalos",
+    description=(
+        "Top 10 contratos por **valor absoluto**, clasificados por IA + heurísticas como:\n\n"
+        "- **VERIDICO**: monto consistente con la entidad y modalidad declarada\n"
+        "- **FALSO**: incoherencias detectadas (modalidad vs techo legal, tipo vs objeto)\n"
+        "- **REVISAR**: requiere validación humana\n\n"
+        "Cada anomalía incluye sustento textual."
+    ),
+    response_model=list[Anomalia],
+)
+def anomalias() -> list[dict[str, Any]]:
     return app.state.cache["anomalias"]
 
 
-@app.get("/api/v1/mapa/deptos", tags=["mapa"])
-def mapa_deptos():
-    """MapaDepto[] — array directo."""
+@app.get(
+    "/api/v1/mapa/deptos",
+    tags=["mapa"],
+    summary="Choropleth Colombia",
+    description=(
+        "Datos para choropleth de Colombia. El campo `codigo` es **ISO DANE** de 2 dígitos para "
+        "matchear contra GeoJSON estándar (`marcovega/colombia-json`)."
+    ),
+    response_model=list[MapaDepto],
+)
+def mapa_deptos() -> list[dict[str, Any]]:
     return app.state.cache["mapa_deptos"]
 
 
