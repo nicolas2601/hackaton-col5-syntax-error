@@ -251,7 +251,7 @@ Resumen:
 - ✅ **Inclusión** sobre exclusión.
 - ❌ **No tolerancia** al acoso, discriminación o ataques personales.
 
-Reportes a: agenciacreativalab@gmail.com (confidencial).
+Reportes a: nm5571762@gmail.com (confidencial).
 
 ---
 

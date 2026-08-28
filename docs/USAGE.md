@@ -215,7 +215,7 @@ function PymeKpi() {
 ## 📞 8. Soporte
 
 - **Issues**: https://github.com/nicolas-tikno/hackaton-col5/issues
-- **Email**: agenciacreativalab@gmail.com
+- **Email**: nm5571762@gmail.com
 - **Twitter**: @tikno_studio
 
 ---

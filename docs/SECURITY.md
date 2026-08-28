@@ -97,7 +97,7 @@ Cualquier persona cuyo nombre aparezca en el corpus puede ejercer derechos ARCO:
 
 #### Cómo ejercerlos
 
-1. Email a: **agenciacreativalab@gmail.com** con asunto `[HABEAS DATA] <su solicitud>`.
+1. Email a: **nm5571762@gmail.com** con asunto `[HABEAS DATA] <su solicitud>`.
 2. Plazo de respuesta: **10 días hábiles** (max. 15 según Decreto 1377).
 3. Adjuntar documento de identidad y descripción específica del registro.
 
@@ -122,7 +122,7 @@ El sistema **no perfila individuos** ni produce decisiones automatizadas con efe
 
 **Canal seguro**:
 
-- 📧 Email: `agenciacreativalab@gmail.com`
+- 📧 Email: `nm5571762@gmail.com`
 - 🔑 Asunto: `[SECURITY] <título corto>`
 - 🕒 Respuesta inicial: **48h** (días hábiles).
 
@@ -208,9 +208,9 @@ El sistema **no perfila individuos** ni produce decisiones automatizadas con efe
 
 | Rol | Contacto |
 |-----|----------|
-| Security lead | agenciacreativalab@gmail.com |
-| Habeas Data | agenciacreativalab@gmail.com (asunto `[HABEAS DATA]`) |
-| Vulnerabilidades | agenciacreativalab@gmail.com (asunto `[SECURITY]`) |
+| Security lead | nm5571762@gmail.com |
+| Habeas Data | nm5571762@gmail.com (asunto `[HABEAS DATA]`) |
+| Vulnerabilidades | nm5571762@gmail.com (asunto `[SECURITY]`) |
 
 ---
 
